@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dialog Web Component</title>
+    <script type="module" src="./example/main.ts"></script>
+    <style>
+      dyn-web-dialog {
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" onclick="alert(11)">11</div>
+    <dyn-web-dialog open modal draggable closeable width="300px">
+      <div slot="header">标题</div>
+      <div>
+        Body Body Body BodyBody Body Body BodyBody Body Body Body Body Body Body
+        BodyBody Body Body BodyBody Body Body Body
+      </div>
+      <div slot="footer">Footer</div>
+    </dyn-web-dialog>
+  </body>
+</html>

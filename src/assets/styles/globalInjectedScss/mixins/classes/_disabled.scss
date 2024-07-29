@@ -1,0 +1,13 @@
+// 定义 @mixin disabled
+@mixin disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+
+  // 针对不同类型的元素，设置常用的禁用样式
+  &,
+  &::before,
+  &::after {
+    user-select: none;
+  }
+}

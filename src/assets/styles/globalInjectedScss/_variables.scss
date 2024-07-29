@@ -1,0 +1,13 @@
+// map-get($map: $theme, $key: "primary-color");
+$theme: (
+  primary-color: var(--dyn-primary-color),
+  success-color: var(--dyn-success-color),
+  warning-color: var(--dyn-warning-color),
+  error-color: var(--dyn-error-color),
+  info-color: var(--dyn-info-color),
+  background-color: var(--dyn-background-color),
+  text-color: var(--dyn-text-color),
+  border-color: var(--dyn-border-color),
+  border-radius-color: var(--dyn-border-radius-color),
+  shadow-color: var(--dyn-shadow-color)
+);
