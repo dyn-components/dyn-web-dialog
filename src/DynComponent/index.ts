@@ -2,14 +2,14 @@ import BaseComponent from "./BaseComponent";
 
 const MODEL_STACKS: WebComponent[] = [];
 class WebComponent extends BaseComponent {
-	open?: boolean; // 是否打开
-	modal: boolean = false; // 是否为模态对话框
-	draggable: boolean = false; // 是否可拖拽
-	closeable: boolean = false; // 是否可关闭
-	width: string = "auto"; // 对话框宽度
-	height: string = "auto"; // 对话框高度
-	minWidth: string = "auto"; // 对话框最小宽度
-	minHeight: string = "auto"; // 对话框最小高度
+	// open?: boolean; // 是否打开
+	// modal: boolean = false; // 是否为模态对话框
+	// draggable: boolean = false; // 是否可拖拽
+	// closeable: boolean = false; // 是否可关闭
+	// width: string = "auto"; // 对话框宽度
+	// height: string = "auto"; // 对话框高度
+	// minWidth: string = "auto"; // 对话框最小宽度
+	// minHeight: string = "auto"; // 对话框最小高度
 
 	private dialog: HTMLDialogElement;
 	private dialogHeader: HTMLElement;
@@ -23,7 +23,7 @@ class WebComponent extends BaseComponent {
 	private boundFitDialogPosition: (e?: Event) => void;
 	static get modelStatcks() { return MODEL_STACKS; }
 	static get observedAttributes(): string[] {
-		return ["open", "modal", "draggable", "closeable", "width", "min-width", "height", "min-height"];
+		return [/*"open", "modal", "draggable", "closeable", "width", "min-width", "height", "min-height"*/];
 	}
 	constructor() {
 		super();
@@ -60,87 +60,105 @@ class WebComponent extends BaseComponent {
 		this.boundFitDialogPosition = this.fitDialogPosition.bind(this);
 		window.addEventListener('keydown', this.boundKeydown);
 	}
-
-	attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
-		super.attributeChangedCallback(name, oldValue, newValue);
-
-		switch (name) {
-			case 'open': {
-				if (this.hasAttribute('open')) {
-					this.open = true;
-				} else {
-					this.open = false;
-				}
-				break;
+	// open
+	set open(value: boolean) {
+		if (value) {
+			this.setAttribute('open', '');
+			if (this._isConnected) {
+				setTimeout(() => {
+					this.checkShouldShowDilaog()
+				})
 			}
-			case 'modal': {
-				if (this.hasAttribute('modal')) {
-					this.modal = true;
-				} else {
-					this.modal = false;
-				}
-				break;
-			}
-			case 'draggable': {
-				if (this.hasAttribute('draggable')) {
-					this.dialog.classList.add('draggable');
-					this.draggable = true;
-					this.initDraggable();
-				} else {
-					this.dialog.classList.remove('draggable');
-					this.draggable = false;
-				}
-				break;
-			}
-			case 'closeable': {
-				if (this.hasAttribute('closeable')) {
-					this.closeable = true;
-					this.shadowRoot!.querySelector('.close')?.classList.remove('hidden');
-				} else {
-					this.closeable = false;
-					this.shadowRoot!.querySelector('.close')?.classList.add('hidden');
-				}
-				break;
-			}
-			case 'width': {
-				if (newValue) {
-					this.dialog.style.width = newValue;
-				}
-				break;
-			}
-			case 'min-width': {
-				if (newValue) {
-					this.dialog.style.minWidth = newValue;
-				}
-				break;
-			}
-			case 'height': {
-				if (newValue) {
-					this.dialog.style.height = newValue;
-				}
-				break;
-			}
-			case 'min-height': {
-				if (newValue) {
-					this.dialog.style.minHeight = newValue;
-				}
-				break;
-			}
-			default: { break; }
+		} else {
+			this.removeAttribute('open');
 		}
+	}
+	get open() {
+		return this.hasAttribute('open');
+	}
+	// modal
+	set modal(value: boolean) {
+		if (value) {
+			this.setAttribute('modal', '');
+		} else {
+			this.removeAttribute('modal');
+		}
+	}
+	get modal() {
+		return this.hasAttribute('modal');
+	}
+	// draggable
+	set draggable(value: boolean) {
+		if (value && !this.fullscreen) {
+			this.setAttribute('draggable', '');
+			this.dialog.classList.add('draggable');
+			this.initDraggable();
+		} else {
+			this.removeAttribute('draggable');
+			this.dialog.classList.remove('draggable');
+		}
+	}
+	get draggable() {
+		return this.hasAttribute('draggable') && !this.fullscreen;
+	}
+	// closeable
+	set closeable(value: boolean) {
+		if (value) {
+			this.setAttribute('closeable', '');
+			this.shadowRoot!.querySelector('.close')?.classList.remove('hidden');
+		} else {
+			this.removeAttribute('closeable');
+			this.shadowRoot!.querySelector('.close')?.classList.add('hidden');
+		}
+	}
+	get closeable() {
+		return this.hasAttribute('closeable');
+	}
+	// fullscreen
+	set fullscreen(value: boolean) {
+		if (value) {
+			this.setAttribute('fullscreen', '');
+			this.dialog.classList.add('fullscreen');
+		} else {
+			this.removeAttribute('fullscreen');
+			this.dialog.classList.remove('fullscreen');
+		}
+	}
+	get fullscreen() {
+		return this.dialog.classList.contains('fullscreen');
+	}
+	// width
+	set width(value: string) {
+		this.dialog.style.width = value || 'auto';
+	}
+	//	minWidth
+	set minWidth(value: string) {
+		this.dialog.style.minWidth = value || 'auto';
+	}
+	// height
+	set height(value: string) {
+		this.dialog.style.height = value || 'auto';
+	}
+	// minHeight
+	set minHeight(value: string) {
+		this.dialog.style.minHeight = value || 'auto';
 	}
 
 	connectedCallback() {
-		if (this.open) {
-			if (this.modal) {
-				this.showModal();
-			} else {
-				this.show();
-			}
-		}
+		super.connectedCallback();
 
-		this.boundFitDialogPosition();
+		this.open = this.hasAttribute('open');
+		this.fullscreen = this.hasAttribute('fullscreen');
+		this.closeable = this.hasAttribute('closeable');
+		this.draggable = this.hasAttribute('draggable');
+		this.modal = this.hasAttribute('modal');
+		this.width = this.getAttribute('width') || 'auto';
+		this.minWidth = this.getAttribute('minWidth') || 'auto';
+		this.height = this.getAttribute('height') || 'auto';
+		this.minHeight = this.getAttribute('minHeight') || 'auto';
+
 		window.addEventListener('resize', this.boundFitDialogPosition);
+		this.checkShouldShowDilaog()
 	}
 
 
@@ -150,6 +168,18 @@ class WebComponent extends BaseComponent {
 		window.removeEventListener('mouseup', this.boundMouseUp);
 		window.removeEventListener('keydown', this.boundKeydown);
 		window.removeEventListener('resize', this.boundFitDialogPosition);
+	}
+
+
+	checkShouldShowDilaog() {
+		if (this.open) {
+			if (this.modal) {
+				this.showModal();
+			} else {
+				this.show();
+			}
+		}
+		this.boundFitDialogPosition();
 	}
 
 	// 模态对话框
@@ -164,9 +194,13 @@ class WebComponent extends BaseComponent {
 	}
 	// 关闭
 	close() {
+		this.dialog.close();
 		this.dialog.removeAttribute("open");
 		WebComponent.modelStatcks.splice(WebComponent.modelStatcks.indexOf(this), 1);
-		this.dialog.close();
+		// 关闭事件
+		this.dispatchEvent(new CustomEvent('close', {
+			bubbles: true
+		}))
 	}
 
 	private onKeydown(e: KeyboardEvent) {

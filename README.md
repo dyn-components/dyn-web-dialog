@@ -66,17 +66,17 @@ import "dyn-components/theme.css";
 
 ## 属性（Props）
 
-| 属性名     | 类型      | 默认值 | 必填 | 描述             |
-| ---------- | --------- | ------ | ---- | ---------------- |
-| modal      | `boolean` |        |      | 是否为模态框     |
-| open       | `boolean` |        |      | 是否默认打开     |
-| draggable  | `boolean` |        |      | 是否可拖拽       |
-| closeable  | `boolean` |        |      | 是否显示关闭按钮 |
-| width      | `string` |        |      | 对话框宽度       |
-| min-width  | `string` |        |      | 对话框最小宽度   |
-| height     | `string` |        |      | 对话框高度       |
-| min-height | `string` |        |      | 对话框最小高度   |
-
+| 属性名     | 类型      | 默认值 | 必填 | 描述              |
+| ---------- | --------- | ------ | ---- | ----------------- |
+| modal      | `boolean` |        |      | 是否为模态框      |
+| open       | `boolean` |        |      | 是否默认打开      |
+| draggable  | `boolean` |        |      | 是否可拖拽        |
+| closeable  | `boolean` |        |      | 是否显示关闭按钮  |
+| fullscreen | `boolean` |        |      | 是否为全屏 Dialog |
+| width      | `string`  |        |      | 对话框宽度        |
+| min-width  | `string`  |        |      | 对话框最小宽度    |
+| height     | `string`  |        |      | 对话框高度        |
+| min-height | `string`  |        |      | 对话框最小高度    |
 
 ## 发布
 

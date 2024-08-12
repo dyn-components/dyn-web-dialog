@@ -1,5 +1,9 @@
 import styles from './styles/index.scss?inline'
 class BaseComponent extends HTMLElement {
+  protected _isConnected = false;
+  static getBooleanValue(value: any) {
+    return !!value && value !== "false" || value === "";
+  }
   static get observedAttributes(): string[] {
     return [];
   }
@@ -14,7 +18,9 @@ class BaseComponent extends HTMLElement {
 
   attributeChangedCallback(_name: string, _oldValue: string | null, _newValue: string | null) { }
 
-  connectedCallback() { }
+  connectedCallback() {
+    this._isConnected = true;
+  }
 
   disconnectedCallback() { }
 

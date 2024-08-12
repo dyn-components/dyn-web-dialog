@@ -6,7 +6,7 @@
     overflow: hidden;
 
     &:hover {
-      opacity: 0.85;
+      filter: brightness(1.2);
     }
   }
 
@@ -19,6 +19,8 @@
   dialog {
     transform: translate(0, 0);
     margin: 0;
+    display: flex;
+    flex-direction: column;
     position: fixed;
     outline: none; /* 移除轮廓 */
     border: solid 1px map-get($map: $theme, $key: "border-color");
@@ -37,16 +39,47 @@
       font-weight: 500;
 
       .close {
-        position: absolute;
-        right: 0;
+        position: fixed;
+        right: 6px;
+        top: 6px;
         cursor: pointer;
+        z-index: 100;
       }
     }
 
+    .body {
+      flex: 1;
+    }
+
+    .drag-handle {
+      display: none;
+    }
     &.draggable {
       .drag-handle {
+        display: inline-block;
         cursor: move;
       }
+    }
+
+    &.fullscreen {
+      position: fixed;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0;
+      bottom: 0;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0;
+      margin: 0;
+
+      &:-internal-dialog-in-top-layer {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+
+    &:not([open]) {
+      display: none;
     }
   }
 }
