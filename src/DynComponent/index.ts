@@ -265,7 +265,9 @@ class WebComponent extends BaseComponent {
 }
 
 const define = (name: string, options?: ElementDefinitionOptions) => {
-	customElements.define(name, WebComponent, options);
+	if (!customElements.get(name)) {
+		customElements.define(name, WebComponent, options);
+	}
 };
 
 export { define };
