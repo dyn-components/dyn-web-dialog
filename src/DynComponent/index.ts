@@ -6,10 +6,10 @@ class WebComponent extends BaseComponent {
 	// modal: boolean = false; // 是否为模态对话框
 	// draggable: boolean = false; // 是否可拖拽
 	// closeable: boolean = false; // 是否可关闭
-	// width: string = "auto"; // 对话框宽度
-	// height: string = "auto"; // 对话框高度
-	// minWidth: string = "auto"; // 对话框最小宽度
-	// minHeight: string = "auto"; // 对话框最小高度
+	// width: string = ""; // 对话框宽度
+	// height: string = ""; // 对话框高度
+	// minWidth: string = ""; // 对话框最小宽度
+	// minHeight: string = ""; // 对话框最小高度
 
 	private dialog: HTMLDialogElement;
 	private dialogHeader: HTMLElement;
@@ -129,19 +129,19 @@ class WebComponent extends BaseComponent {
 	}
 	// width
 	set width(value: string) {
-		this.dialog.style.width = value || 'auto';
+		this.dialog.style.width = value || '';
 	}
 	//	minWidth
 	set minWidth(value: string) {
-		this.dialog.style.minWidth = value || 'auto';
+		this.dialog.style.minWidth = value || '';
 	}
 	// height
 	set height(value: string) {
-		this.dialog.style.height = value || 'auto';
+		this.dialog.style.height = value || '';
 	}
 	// minHeight
 	set minHeight(value: string) {
-		this.dialog.style.minHeight = value || 'auto';
+		this.dialog.style.minHeight = value || '';
 	}
 
 	connectedCallback() {
@@ -152,10 +152,10 @@ class WebComponent extends BaseComponent {
 		this.closeable = this.hasAttribute('closeable');
 		this.draggable = this.hasAttribute('draggable');
 		this.modal = this.hasAttribute('modal');
-		this.width = this.getAttribute('width') || 'auto';
-		this.minWidth = this.getAttribute('minWidth') || 'auto';
-		this.height = this.getAttribute('height') || 'auto';
-		this.minHeight = this.getAttribute('minHeight') || 'auto';
+		this.width = this.getAttribute('width') || '';
+		this.minWidth = this.getAttribute('minWidth') || '';
+		this.height = this.getAttribute('height') || '';
+		this.minHeight = this.getAttribute('minHeight') || '';
 
 		window.addEventListener('resize', this.boundFitDialogPosition);
 		this.checkShouldShowDilaog()
